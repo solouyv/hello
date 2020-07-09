@@ -19,7 +19,6 @@ class AuthorAdmin(admin.ModelAdmin):
 
 # Register the admin class with the associated model
 admin.site.register(Author, AuthorAdmin)
-
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
     extra = 0
@@ -32,15 +31,14 @@ class BookAdmin(admin.ModelAdmin):
 
 # Register the Admin classes for BookInstance using the decorator
 @admin.register(BookInstance) 
-
 class BookInstanceAdmin(admin.ModelAdmin):
     list_filter = ('status', 'due_back')
-    list_display = ('book', 'status', 'due_back', 'id')
+    list_display = ('book', 'status', 'due_back', 'id', 'borrower')
     fieldsets = (
         (None, {
             'fields': ('book', 'imprint', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back')
+            'fields': ('status', 'due_back', 'borrower')
         }),
     )
