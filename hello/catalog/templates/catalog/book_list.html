@@ -3,31 +3,34 @@
 {% block content %}
   <h1>Book List</h1>
   {% if book_list %}
-
     <div class="container">
-      {% for book in book_list %}
+      <ul>
+        {% for book in book_list %}
 
-        <div class="row">
+          <div class="row">
+            <div class="col-3"> 
+              <li>
+                <a href="{{ book.get_absolute_url }}">
+                  {{ book.title }}
+                </a> 
+              </li>
+            </div>
 
-          <div class="col-3"> 
-            <a href="{{ book.get_absolute_url }}">
-              {{ book.title }}
-            </a> 
+            <div class="col">
+              ({{book.author}})
+            </div>
+            
+            <div class="col">
+              {% if perms.catalog.can_mark_returned %} 
+                <a href="{% url 'book_update' book.id %}">Update</a> / 
+                <a href="{% url 'book_delete' book.id %}">Delete</a> 
+              {% endif %}
+            </div>
+
           </div>
-
-          <div class="col">
-            ({{book.author}})
-          </div>
-          
-          <div class="col">
-            {% if perms.catalog.can_mark_returned %} 
-              <a href="{% url 'book_update' book.id %}">Update</a> / 
-              <a href="{% url 'book_delete' book.id %}">Delete</a> 
-            {% endif %}
-          </div>
-
-        </div>
-      {%endfor%}
+        {%endfor%}
+      </ul>
+    </div>
   {% else %}
     <p>There are no books in the library.</p>
   {% endif %}       
