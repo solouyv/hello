@@ -3,18 +3,35 @@
 {% block content %}
   <h1>Author List</h1>
   {% if author_list %}
-  <ul>
-    {% for author in author_list %}
-      <li>
-        <a href="{{ author.get_absolute_url }}">
-            {{ author.last_name }} 
-            {{ author.first_name }} 
-        </a> 
-            ({{author.date_of_birth}} - {{author.date_of_death}})
-      </li>
-    {% endfor %}
-  </ul>
+
+    <div class="container">
+      {% for author in author_list %}
+
+        <div class="row">
+
+          <div class="col-3"> 
+            <a href="{{ author.get_absolute_url }}">
+                {{ author.last_name }} 
+                {{ author.first_name }} 
+            </a>
+          </div>
+
+          <div class="col">
+            ({{author.date_of_birth}} - {{author.date_of_death}}) 
+          </div>
+          
+          <div class="col">
+            {% if perms.catalog.can_mark_returned %} 
+              <a href="{% url 'author_update' author.id %}">Update</a> / 
+              <a href="{% url 'author_delete' author.id %}">Delete</a> 
+            {% endif %}
+          </div>
+
+        </div>
+      {%endfor%}
+
   {% else %}
     <p>There are no authors in the library.</p>
   {% endif %}       
+
 {% endblock %}
